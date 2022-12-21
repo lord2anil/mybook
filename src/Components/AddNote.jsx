@@ -7,8 +7,8 @@ export default function AddNote() {
     const [note, setnote] = useState({title:'',description:'',tag:''})
     const handlesubmit=(e)=>{
         e.preventDefault();
-        console.log("heloo this is anil")
-       addNote(note);
+        // console.log(note)
+       addNote(note.title,note.description,note.tag);
     }
     const onchange=(e)=>{
         setnote({...note,[e.target.name]:e.target.value})
@@ -41,6 +41,18 @@ export default function AddNote() {
             className="form-control"
             id="description"
             name='description'
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="tag" className="form-label">
+            tag
+          </label>
+          <input
+            onChange={onchange}
+            type="text"
+            className="form-control"
+            id="tag"
+            name='tag'
           />
         </div>
         

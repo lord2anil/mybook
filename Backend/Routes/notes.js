@@ -35,7 +35,8 @@ router.post('/addnote',fetchuser, [
         title,description,tag,user:req.user.id
     })
     const savedNote=await note.save();
-    res.json(savedNote)}
+    res.json(savedNote)
+}
     catch (error)
     {console.log('some error occured'),
     req.status(500).send("Internal server error occured")
@@ -72,6 +73,7 @@ router.put('/updatenote/:id',fetchuser,async (req,res)=>{
     catch (error)
     {console.log('some error occured'),
     req.status(500).send("Internal server error occured")
+    
     
     }
     
