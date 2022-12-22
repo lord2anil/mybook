@@ -9,6 +9,7 @@ export default function AddNote() {
         e.preventDefault();
         // console.log(note)
        addNote(note.title,note.description,note.tag);
+       setnote({title:'',description:'',tag:''})
     }
     const onchange=(e)=>{
         setnote({...note,[e.target.name]:e.target.value})
@@ -22,6 +23,9 @@ export default function AddNote() {
             Title
           </label>
           <input
+            minLength={5}
+            required
+            value={note.title}
             onChange={onchange}
             type="text"
             className="form-control"
@@ -36,6 +40,10 @@ export default function AddNote() {
             Description
           </label>
           <input
+          minLength={5}
+          required
+          value={note.description}
+
             onChange={onchange}
             type="text"
             className="form-control"
@@ -48,6 +56,8 @@ export default function AddNote() {
             tag
           </label>
           <input
+            value={note.tag}
+
             onChange={onchange}
             type="text"
             className="form-control"
@@ -56,7 +66,7 @@ export default function AddNote() {
           />
         </div>
         
-        <button type="submit" onClick={handlesubmit} className="btn btn-primary">
+        <button disabled={note.title.length<5|| note.description.length<5} type="submit" onClick={handlesubmit} className="btn btn-primary">
           Submit
         </button>
 

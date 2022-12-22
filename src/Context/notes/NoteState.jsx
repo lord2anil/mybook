@@ -26,22 +26,8 @@ const addNote= async (title,description,tag)=>{
     body: JSON.stringify({title,description,tag})
     };
     const response = await fetch(`${host}/api/notes/addnote`, requestOptions);
-    const json= await response.json();
-    console.log(json);
-
-
-  const note={
-    
-        "_id": "639ac1dcas18de909xvz55a1591e50c7",
-        "user": "63994d2786e198534f6fad46",
-        "title": title,
-        "description":description,
-        "tag":tag,
-        "date": "2022-12-15T06:42:36.360Z",
-        "__v": 0
-   
-    
-  }
+    const note= await response.json();
+  
   setnotes(notes.concat(note));
 }
 
@@ -68,7 +54,7 @@ const editNote= async (id,title,description,tag)=>{
 };
 const response = await fetch(`${host}/api/notes/updatenote/${id}`, requestOptions);
 const json= await response.json();
-
+  
   let newnotes=JSON.parse(JSON.stringify(notes));
       for (let index = 0; index < notes.length; index++) {
         const element = newnotes[index];

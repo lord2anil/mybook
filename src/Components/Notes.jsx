@@ -17,7 +17,8 @@ function Notes() {
         e.preventDefault();
         // console.log(note)
        editNote(note.eid,note.etitle,note.edescription,note.etag);
-      //  getnotes();
+       getnotes();
+      
 
       refclose.current.click();
 
@@ -60,6 +61,8 @@ function Notes() {
             id="etitle"
             aria-describedby="emailHelp"
             name="etitle"
+            minLength={5}
+            required
           />
         
         </div>
@@ -69,7 +72,8 @@ function Notes() {
           </label>
           <input
           value={note.edescription}
-
+          minLength={5}
+          required
             onChange={onchange}
             type="text"
             className="form-control"
@@ -101,7 +105,7 @@ function Notes() {
               </div>
               <div className="modal-footer">
                 <button ref={refclose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" onClick={handlesubmit} className="btn btn-primary">Save changes</button>
+                <button  disabled={note.etitle.length<5|| note.edescription.length<5} type="button" onClick={handlesubmit} className="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
@@ -120,7 +124,10 @@ function Notes() {
 
 
       
-    <div className="container row">
+    <div className="container row ">
+      <div className="container ">
+        {notes.length===0 &&"No note to display"}
+      </div>
         {notes.map((note,i)=>{
             return <NotesItem key={i} note={note} updatenote={updatenote}/>
         })}
