@@ -6,7 +6,7 @@ const bcrypt=require('bcryptjs')
 const jwt = require('jsonwebtoken');
 var fetchuser=require('../Middware/Fetchuser')
 
-
+let success=true
 router.post('/createuser',[
  
     body('email','Email is not in valid').isEmail(),
@@ -19,16 +19,17 @@ router.post('/createuser',[
     if (!errors.isEmpty()) {
       success=false
 
-      return res.status(400).json({success, errors: errors.array() });
+      return res.status(400).json({success, error: errors.array() });
     }
     try
     {
     
     
     let user= await User.findOne({email:req.body.email})
-
+    
     if(user){
-        return res.status(400).json({error:"user with email is already exits"})
+      success=false
+        return res.status(400).json({success,error:"user with email is already exits"})
     }
     const salt= await bcrypt.genSalt(10)
     const secPass=await bcrypt.hash(req.body.password,salt)
@@ -43,13 +44,14 @@ router.post('/createuser',[
         }
       }
       const jwtdata = jwt.sign(data, 'shhhhh');
-      console.log(jwtdata)
+      // console.log(jwtdata)
       success=true
 
-      res.json({jsuccess,wtdata})}
+      res.json({success,jwtdata})}
       catch (error)
-    {console.log('some error occured'),
-    req.status(500).send("Internal server error occured")
+    {success=false
+      // console.log('some error occured'),
+    req.status(500).send({success,error:"Internal server error occured"})
     
     }
 
@@ -85,12 +87,14 @@ router.post('/login',[
     
     
     if(!user){
-        return res.status(400).json({error:"Please enter correct cardantials"})
+        success=false
+        return res.status(400).json({success,error:"Please enter correct cardantials"})
     }
     
     const PasswordCompare= await bcrypt.compare(password,user.password)
     if(!PasswordCompare){
-      return res.status(400).json({error:"Please enter correct cardantials"})
+      success=false
+      return res.status(400).json({success,error:"Please enter correct cardantials"})
     }
     const data={
       user:{
@@ -102,9 +106,10 @@ router.post('/login',[
       success=true
       
       res.json({success,jwtdata})}
-      catch (error)
+    catch (error)
     {
-    req.status(500).send("Internal server error occured")
+      success=false
+    req.status(500).send({success,error:"Internal server error occured"})
     
     }
 

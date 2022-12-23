@@ -9,7 +9,7 @@ export default function NodeState(props) {
   const getnotes= async ()=>{
     const requestOptions = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json','auth-token':"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM5OTRkMjc4NmUxOTg1MzRmNmZhZDQ2In0sImlhdCI6MTY3MTA2OTkyOH0.h9RchBbqNvqQuUETMgQObCKlUs93FUNDsQOWGgypSvk" },
+    headers: { 'Content-Type': 'application/json','auth-token':localStorage.getItem("token") },
     
     };
     const response = await fetch(`${host}/api/notes/fetchallnotes`, requestOptions);
@@ -22,7 +22,7 @@ export default function NodeState(props) {
 const addNote= async (title,description,tag)=>{
     const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json','auth-token':"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM5OTRkMjc4NmUxOTg1MzRmNmZhZDQ2In0sImlhdCI6MTY3MTA2OTkyOH0.h9RchBbqNvqQuUETMgQObCKlUs93FUNDsQOWGgypSvk" },
+    headers: { 'Content-Type': 'application/json','auth-token':localStorage.getItem("token") },
     body: JSON.stringify({title,description,tag})
     };
     const response = await fetch(`${host}/api/notes/addnote`, requestOptions);
@@ -34,10 +34,11 @@ const addNote= async (title,description,tag)=>{
 const deleteNote= async (id)=>{
   const requestOptions = {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json','auth-token':"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM5OTRkMjc4NmUxOTg1MzRmNmZhZDQ2In0sImlhdCI6MTY3MTA2OTkyOH0.h9RchBbqNvqQuUETMgQObCKlUs93FUNDsQOWGgypSvk" },
+    headers: { 'Content-Type': 'application/json','auth-token':localStorage.getItem("token") },
    
 };
 const response = await fetch(`${host}/api/notes/deletenote/${id}`, requestOptions);
+// eslint-disable-next-line
 const json=await response.json();
 
 
@@ -46,16 +47,17 @@ const json=await response.json();
 
 const editNote= async (id,title,description,tag)=>{
  
-  console.log("hello")
+  // console.log("hello")
   const requestOptions = {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json','auth-token':"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM5OTRkMjc4NmUxOTg1MzRmNmZhZDQ2In0sImlhdCI6MTY3MTA2OTkyOH0.h9RchBbqNvqQuUETMgQObCKlUs93FUNDsQOWGgypSvk" },
+    headers: { 'Content-Type': 'application/json','auth-token':localStorage.getItem("token") },
     body: JSON.stringify({title,description,tag})
 };
 const response = await fetch(`${host}/api/notes/updatenote/${id}`, requestOptions);
+// eslint-disable-next-line
 const json= await response.json();
   
-  let newnotes=JSON.parse(JSON.stringify(notes));
+  let newnotes= await JSON.parse(JSON.stringify(notes));
       for (let index = 0; index < notes.length; index++) {
         const element = newnotes[index];
         if(element._id===id){
@@ -65,7 +67,7 @@ const json= await response.json();
           break;
         }
       }
-      console.log(newnotes)
+      // console.log(newnotes)
       setnotes(newnotes)
 }
 

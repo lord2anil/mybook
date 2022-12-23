@@ -24,8 +24,9 @@ export default function Navbar() {
             
         </ul>
         <form className="d-flex">
-             <Link className="btn btn-primary mx-1  " to="/Login" role="button">login</Link>
-             <Link className="btn btn-primary mx-1 " to="/Signup" role="button">signup</Link>
+             <Link  className={`btn btn-primary mx-1 ${localStorage.getItem('token')?'d-none':''}`}  to="/Login" role="button">login</Link>
+             <Link className={`btn btn-primary mx-1 ${localStorage.getItem('token')?'d-none':''}`} to="/Signup" role="button">signup</Link>
+             <Link className={`btn btn-primary mx-1 ${!localStorage.getItem('token')?'d-none':''}`} to="/Login"  onClick={()=>{localStorage.clear();}} role="button">Logout</Link>
         </form>
         </div>
     </div>

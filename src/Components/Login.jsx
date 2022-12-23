@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
-export default function Login() {
-    let history=Navigate();
+export default function Login(props) {
+    const showAlert= props.showAlert;
+    let history=useNavigate();
     const [log, setlog] = useState({email:'',password:''})
     const handlesubmit=async(e)=>{
         e.preventDefault();
@@ -14,11 +15,18 @@ export default function Login() {
             body: JSON.stringify({email:log.email,password:log.password})
         };
         const response = await fetch(`http://localhost:5000/api/auth/login`, requestOptions);
+        // eslint-disable-next-line
         const json= await response.json();
-        console.log(json);
+        // console.log(json);
         if(json.success===true){
+            showAlert("login successful","success")
             localStorage.setItem('token',json.jwtdata);
-            history('/')
+            history('/');
+
+        }else{
+            showAlert("Please enter correct credential","Alert")
+
+
 
         }
 
