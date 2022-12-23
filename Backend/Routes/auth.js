@@ -8,15 +8,18 @@ var fetchuser=require('../Middware/Fetchuser')
 
 
 router.post('/createuser',[
-    body('email','Email is in valid').isEmail(),
+ 
+    body('email','Email is not in valid').isEmail(),
 
-  body('password','passward is in valid').isLength({ min: 5 }),
-  body('name','name is in valid').isLength({ min: 5 }),
+  body('password','passward is not in valid').isLength({ min: 5 }),
+  body('name','name is not in valid').isLength({ min: 5 }),
 
 ],async (req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      success=false
+
+      return res.status(400).json({success, errors: errors.array() });
     }
     try
     {
@@ -41,7 +44,9 @@ router.post('/createuser',[
       }
       const jwtdata = jwt.sign(data, 'shhhhh');
       console.log(jwtdata)
-      res.json({jwtdata})}
+      success=true
+
+      res.json({jsuccess,wtdata})}
       catch (error)
     {console.log('some error occured'),
     req.status(500).send("Internal server error occured")
@@ -58,15 +63,16 @@ router.post('/createuser',[
 
 
 router.post('/login',[
-    body('email','Email is in valid').isEmail(),
+    body('email','Email is not valid').isEmail(),
 
-  body('password','passward is in valid').exists(),
+  body('password','passward is not valid').exists(),
 
 
 ],async (req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      success=false
+      return res.status(400).json({success, errors: errors.array() });
     }
 
 
@@ -93,8 +99,9 @@ router.post('/login',[
     }
 
       const jwtdata = jwt.sign(data, 'shhhhh');
+      success=true
       
-      res.json({jwtdata})}
+      res.json({success,jwtdata})}
       catch (error)
     {
     req.status(500).send("Internal server error occured")
